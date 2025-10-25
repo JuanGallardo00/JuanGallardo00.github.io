@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}CV profesional y convertidor de documentos{% endblock %}">
+    <meta name="author" content="Juan Antonio Gallardo Molina">
+    <title>{% block title %}CV + DocConvert{% endblock %}</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="{{ url_for('main.index') }}">CV + DocConvert</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('main.index') }}" class="nav-link">Inicio</a></li>
+                <li><a href="{{ url_for('convert.convert_page') }}" class="nav-link">Convertidor</a></li>
+                <li><a href="{{ url_for('stripe.donate_page') }}" class="nav-link">Donar</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Juan Antonio Gallardo Molina. Todos los derechos reservados.</p>
+            <p class="footer-tech">Desarrollado con Flask & Python | Seguridad implementada</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

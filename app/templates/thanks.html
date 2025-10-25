@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+
+{% block title %}Gracias por tu donacion! - CV + DocConvert{% endblock %}
+
+{% block meta_description %}Gracias por apoyar CV + DocConvert{% endblock %}
+
+{% block extra_css %}
+<style>
+    .thanks-section {
+        padding: 80px 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .thanks-container {
+        max-width: 600px;
+        background: white;
+        border-radius: 16px;
+        padding: 50px 40px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        text-align: center;
+    }
+
+    .success-icon {
+        font-size: 80px;
+        margin-bottom: 20px;
+        animation: bounce 1s;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-20px);
+        }
+        60% {
+            transform: translateY(-10px);
+        }
+    }
+
+    .thanks-title {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .thanks-message {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .donation-details {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 25px;
+        margin: 30px 0;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 1.1rem;
+    }
+
+    .detail-label {
+        color: #666;
+    }
+
+    .detail-value {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .amount-highlight {
+        font-size: 2rem;
+        color: #667eea;
+        font-weight: 700;
+    }
+
+    .actions {
+        margin-top: 35px;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 14px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+        background: #f1f1f1;
+        color: #333;
+    }
+
+    .btn-secondary:hover {
+        background: #e1e1e1;
+    }
+
+    .social-share {
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .social-share h3 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        color: #666;
+    }
+
+    .share-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .share-btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: white;
+        font-size: 0.95rem;
+        transition: all 0.3s;
+    }
+
+    .share-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .twitter {
+        background: #1DA1F2;
+    }
+
+    .facebook {
+        background: #4267B2;
+    }
+
+    .linkedin {
+        background: #0077B5;
+    }
+
+    .error-container {
+        background: #ffebee;
+        border: 2px solid #ef5350;
+        border-radius: 12px;
+        padding: 30px;
+        margin: 20px 0;
+    }
+
+    .error-icon {
+        font-size: 60px;
+        margin-bottom: 15px;
+    }
+
+    .error-title {
+        font-size: 1.8rem;
+        color: #c62828;
+        margin-bottom: 10px;
+    }
+
+    .error-message {
+        color: #666;
+        font-size: 1.1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="thanks-section">
+    <div class="thanks-container">
+        {% if error %}
+        <div class="error-container">
+            <div class="error-icon">&#9888;</div>
+            <h1 class="error-title">Algo salio mal</h1>
+            <p class="error-message">{{ error }}</p>
+        </div>
+
+        <div class="actions">
+            <a href="{{ url_for('stripe.donate_page') }}" class="btn btn-primary">Intentar de nuevo</a>
+            <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Volver al inicio</a>
+        </div>
+
+        {% else %}
+        <div class="success-icon">&#127881;</div>
+
+        <h1 class="thanks-title">Gracias por tu donacion!</h1>
+
+        <p class="thanks-message">
+            Tu generosidad ayuda a mantener CV + DocConvert gratis y accesible para todos.
+            Realmente apreciamos tu apoyo!
+        </p>
+
+        {% if amount %}
+        <div class="donation-details">
+            <div class="detail-row">
+                <span class="detail-label">Monto donado:</span>
+                <span class="amount-highlight">${{ "%.2f"|format(amount) }} USD</span>
+            </div>
+            {% if session_id %}
+            <div class="detail-row">
+                <span class="detail-label">ID de transaccion:</span>
+                <span class="detail-value" style="font-size: 0.85rem;">{{ session_id[:20] }}...</span>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <p style="color: #999; margin-top: 20px;">
+            &#128231; Recibiras un recibo por email de parte de Stripe
+        </p>
+
+        <div class="actions">
+            <a href="{{ url_for('convert.convert_page') }}" class="btn btn-primary">Usar el Convertidor</a>
+            <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Volver al inicio</a>
+        </div>
+
+        <div class="social-share">
+            <h3>Comparte con tus amigos</h3>
+            <div class="share-buttons">
+                <a href="https://twitter.com/intent/tweet?text=Acabo%20de%20donar%20a%20CV%2BDocConvert%2C%20una%20herramienta%20gratuita%20para%20convertir%20documentos!"
+                   target="_blank"
+                   class="share-btn twitter">
+                    Twitter
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url_root }}"
+                   target="_blank"
+                   class="share-btn facebook">
+                    Facebook
+                </a>
+                <a href="https://www.linkedin.com/in/juan-antonio-gallardo-molina-881738298/={{ request.url_root }}"
+                   target="_blank"
+                   class="share-btn linkedin">
+                    LinkedIn
+                </a>
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

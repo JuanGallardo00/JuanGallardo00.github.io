@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Donar - CV + DocConvert{% endblock %}
+
+{% block meta_description %}Apoya el desarrollo de CV + DocConvert con una donacion{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/donate.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="donate-section">
+    <div class="donate-container">
+        <h1 class="donate-title">&#128157; Apoya este proyecto</h1>
+        <p class="donate-subtitle">Tu donacion ayuda a mantener CV + DocConvert gratis y accesible para todos</p>
+
+        <div id="error-message" class="error-message"></div>
+
+        <div class="amount-options">
+            <button class="amount-btn" data-amount="500" onclick="selectAmount(500)">$5</button>
+            <button class="amount-btn active" data-amount="1000" onclick="selectAmount(1000)">$10</button>
+            <button class="amount-btn" data-amount="2000" onclick="selectAmount(2000)">$20</button>
+        </div>
+
+        <div class="custom-amount">
+            <label for="custom-amount-input">O ingresa un monto personalizado (USD):</label>
+            <input type="number" id="custom-amount-input" min="0.50" step="0.01" placeholder="Ej: 15.00" onchange="selectCustomAmount()">
+        </div>
+
+        <div id="loading-spinner" class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Procesando...</p>
+        </div>
+
+        <button id="donate-button" class="donate-btn" onclick="handleDonate()">
+            Donar $<span id="selected-amount">10</span>
+        </button>
+
+        <p class="secure-badge">
+            &#128274; Pago seguro procesado por Stripe
+        </p>
+
+        <div class="features">
+            <div class="feature-item">
+                <span class="feature-icon">&#10004;</span>
+                <span>Conversion de documentos gratuita</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">&#128274;</span>
+                <span>Seguridad y privacidad garantizada</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">&#9889;</span>
+                <span>Sin limites de uso</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">&#128187;</span>
+                <span>Codigo abierto y transparente</span>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/donate.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}{{ cv.nombre }} - CV Profesional{% endblock %}
+
+{% block meta_description %}CV profesional de {{ cv.nombre }}, {{ cv.titulo }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">{{ cv.nombre }}</h1>
+            <p class="hero-subtitle">{{ cv.titulo }}</p>
+            <div class="hero-contact">
+                <a href="mailto:{{ cv.email }}" class="contact-item">{{ cv.email }}</a>
+                <span class="separator">|</span>
+                <span class="contact-item">{{ cv.telefono }}</span>
+            </div>
+            <div class="hero-links">
+                <a href="https://{{ cv.linkedin }}" target="_blank" class="btn btn-outline">LinkedIn</a>
+                <a href="https://{{ cv.github }}" target="_blank" class="btn btn-outline">GitHub</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sobre mí -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Sobre mí</h2>
+        <p class="section-text">{{ cv.sobre_mi }}</p>
+    </div>
+</section>
+
+<!-- Habilidades -->
+<section class="section section-gray">
+    <div class="container">
+        <h2 class="section-title">Habilidades</h2>
+        <div class="skills-grid">
+            {% for skill in cv.habilidades %}
+            <div class="skill-item">
+                <div class="skill-header">
+                    <span class="skill-name">{{ skill.nombre }}</span>
+                    <span class="skill-level">{{ skill.nivel }}%</span>
+                </div>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-width="{{ skill.nivel }}"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Experiencia -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Experiencia Profesional</h2>
+        <div class="timeline">
+            {% for exp in cv.experiencia %}
+            <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">{{ exp.puesto }}</h3>
+                    <p class="timeline-company">{{ exp.empresa }}</p>
+                    <p class="timeline-period">{{ exp.periodo }}</p>
+                    <p class="timeline-description">{{ exp.descripcion }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Educación -->
+<section class="section section-gray">
+    <div class="container">
+        <h2 class="section-title">Educación</h2>
+        <div class="education-list">
+            {% for edu in cv.educacion %}
+            <div class="education-item">
+                <h3 class="education-title">{{ edu.titulo }}</h3>
+                <p class="education-institution">{{ edu.institucion }}</p>
+                <p class="education-period">{{ edu.periodo }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Proyectos -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Proyectos Destacados</h2>
+        <div class="projects-grid">
+            {% for project in cv.proyectos %}
+            <div class="project-card">
+                <h3 class="project-name">{{ project.nombre }}</h3>
+                <p class="project-description">{{ project.descripcion }}</p>
+                <div class="project-tech">
+                    {% for tech in project.tecnologias %}
+                    <span class="tech-tag">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="cta-title">¿Necesitas convertir documentos?</h2>
+            <p class="cta-text">Usa nuestra herramienta gratuita para convertir PDFs e imágenes</p>
+            <a href="{{ url_for('convert.convert_page') }}" class="btn btn-primary">Ir al Convertidor</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}

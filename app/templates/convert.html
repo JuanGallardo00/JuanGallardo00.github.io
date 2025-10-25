@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Convertidor de Documentos - CV + DocConvert{% endblock %}
+
+{% block meta_description %}Convierte imagenes a PDF, une y divide PDFs de forma gratuita{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/convert.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="converter-section">
+    <div class="container">
+        <h1 class="page-title">Convertidor de Documentos</h1>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('images-to-pdf')">Imagenes a PDF</button>
+            <button class="tab" onclick="switchTab('merge-pdfs')">Unir PDFs</button>
+            <button class="tab" onclick="switchTab('split-pdf')">Dividir PDF</button>
+        </div>
+
+        <div id="images-to-pdf" class="tab-content active">
+            <div class="converter-card">
+                <h2 class="converter-title">Convertir Imagenes a PDF</h2>
+                <p class="converter-description">Selecciona una o mas imagenes (PNG, JPG, JPEG) para convertirlas en un unico PDF</p>
+
+                <div class="upload-area" onclick="document.getElementById('images-input').click()">
+                    <div class="upload-icon">&#128228;</div>
+                    <p>Haz clic o arrastra imagenes aqui</p>
+                    <p class="upload-format-hint">Formatos: PNG, JPG, JPEG</p>
+                </div>
+
+                <input type="file" id="images-input" class="file-input" multiple accept="image/png,image/jpeg,image/jpg">
+                <div id="images-file-list" class="file-list"></div>
+
+                <div class="center-content">
+                    <button class="btn btn-primary" onclick="convertImagesToPDF()">Convertir a PDF</button>
+                </div>
+
+                <div id="images-loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Convirtiendo...</p>
+                </div>
+
+                <div id="images-result" class="result-area"></div>
+                <div id="images-error" class="error-area"></div>
+            </div>
+        </div>
+
+        <div id="merge-pdfs" class="tab-content">
+            <div class="converter-card">
+                <h2 class="converter-title">Unir PDFs</h2>
+                <p class="converter-description">Selecciona dos o mas PDFs para unirlos en un solo documento</p>
+
+                <div class="upload-area" onclick="document.getElementById('merge-input').click()">
+                    <div class="upload-icon">&#128209;</div>
+                    <p>Haz clic o arrastra PDFs aqui</p>
+                    <p class="upload-format-hint">Solo archivos PDF</p>
+                </div>
+
+                <input type="file" id="merge-input" class="file-input" multiple accept="application/pdf">
+                <div id="merge-file-list" class="file-list"></div>
+
+                <div class="center-content">
+                    <button class="btn btn-primary" onclick="mergePDFs()">Unir PDFs</button>
+                </div>
+
+                <div id="merge-loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Uniendo PDFs...</p>
+                </div>
+
+                <div id="merge-result" class="result-area"></div>
+                <div id="merge-error" class="error-area"></div>
+            </div>
+        </div>
+
+        <div id="split-pdf" class="tab-content">
+            <div class="converter-card">
+                <h2 class="converter-title">Dividir PDF</h2>
+                <p class="converter-description">Extrae paginas especificas de un PDF</p>
+
+                <div class="upload-area" onclick="document.getElementById('split-input').click()">
+                    <div class="upload-icon">&#9986;</div>
+                    <p>Haz clic para seleccionar PDF</p>
+                </div>
+
+                <input type="file" id="split-input" class="file-input" accept="application/pdf">
+                <div id="split-file-list" class="file-list"></div>
+
+                <div class="page-controls">
+                    <label>Pagina inicial: <input type="number" id="start-page" min="1" value="1" class="page-input"></label>
+                    <label class="page-control-label">Pagina final: <input type="number" id="end-page" min="1" value="1" class="page-input"></label>
+                </div>
+
+                <div class="center-content">
+                    <button class="btn btn-primary" onclick="splitPDF()">Dividir PDF</button>
+                </div>
+
+                <div id="split-loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Dividiendo PDF...</p>
+                </div>
+
+                <div id="split-result" class="result-area"></div>
+                <div id="split-error" class="error-area"></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/validate.js') }}"></script>
+<script src="{{ url_for('static', filename='js/convert.js') }}"></script>
+{% endblock %}
